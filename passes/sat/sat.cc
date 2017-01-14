@@ -656,6 +656,15 @@ struct SatHelper
 		if (last_timestep == -2)
 			log("  no model variables selected for display.\n");
 	}
+    const char* remove_leading_backslash(const char* str){
+        if(str == NULL) 
+            return NULL;
+        if(str[0] == '\\')
+            return str+1;
+        else
+            return str;
+
+    }
 
 	void dump_model_to_vcd(std::string vcd_file_name)
 	{
@@ -692,7 +701,7 @@ struct SatHelper
 		std::map<std::string, std::string> vcdnames;
 
 		fprintf(f, "$timescale 1ns\n"); // arbitrary time scale since actual clock period is unknown/unimportant
-		fprintf(f, "$scope module %s $end\n", module->name.c_str());
+		fprintf(f, "$scope module %s $end\n", remove_leading_backslash(module->name.c_str()));
 		for (auto &info : modelInfo)
 		{
 			if (vcdnames.find(info.description) != vcdnames.end())
@@ -710,8 +719,8 @@ struct SatHelper
 				if(c == ':')
 					c = '_';
 			}
-
-			fprintf(f, "$var wire %d %s %s $end\n", info.width, namebuf, legal_desc.c_str());
+            
+			fprintf(f, "$var wire %d %s %s $end\n", info.width, namebuf, remove_leading_backslash(legal_desc.c_str()));
 
 			// Need to look at first *two* cycles!
 			// We need to put a name on all variables but those without an initialization clause
