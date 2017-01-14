@@ -720,10 +720,7 @@ std::string proc_share_dirname()
 	if (check_file_exists(proc_share_path, true))
 		return proc_share_path;
 #  else
-	std::string proc_share_path = proc_self_path + "share/";
-	if (check_file_exists(proc_share_path, true))
-		return proc_share_path;
-	proc_share_path = proc_self_path + "../share/yosys/";
+    std::string proc_share_path = proc_self_path + "../share/yosys/";
 	if (check_file_exists(proc_share_path, true))
 		return proc_share_path;
 #    ifdef YOSYS_DATDIR
