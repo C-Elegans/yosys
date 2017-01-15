@@ -18,16 +18,7 @@ void replace_le_cell(Cell* cell, Module* module){
                 module->remove(cell);
             }
         }
-        else{
-            return;
-            //on unsigned numbers, a < 0 is always false, so replace it with 0
-            log("Found x < 0 (unsigned), replacing with constant 0\n");
-            module->connect(cell->getPort("\\Y"), y);
-            module->remove(cell);
-
-        }
     } 
-
 }
 void replace_ge_cell(Cell* cell, Module* module){
     RTLIL::SigSpec a = cell->getPort("\\A");
@@ -44,17 +35,7 @@ void replace_ge_cell(Cell* cell, Module* module){
                 module->addNot("$not", a_prime, y,false);
             }
         }
-        else{
-            return;
-            log("Found x >= 0 (unsigned), optimizing\n");
-            RTLIL::SigSpec a_prime(RTLIL::State::S1, cell->parameters["\\Y_WIDTH"].as_int());
-            module->connect(cell->getPort("\\Y"),a_prime);
-            module->remove(cell);
-             
-        }
     }
-
-
 }
 void optimize_compares(Design* design, Module* module){
     log_header(design, "Executing OPT_COMPARE pass.\n");
