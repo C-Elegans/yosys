@@ -44,7 +44,7 @@ fi
 
 if [ "$1" == "--build" ]; then
 	modname="$2"; shift 2
-	set -- --exec --cxx --cxxflags --ldflags -o "$modname" -shared -undefined dynamic_lookup"$@" --ldlibs
+	set -- --exec --cxx --cxxflags --ldflags -o "$modname" -shared -undefined dynamic_lookup "$@" --ldlibs
 fi
 
 prefix="--"
